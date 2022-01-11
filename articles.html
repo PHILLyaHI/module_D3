@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Articles
+{% endblock title %}
+
+{% block content %}
+    <h1>All Articles</h1>
+    <h3>{{ time_now }}</h3>
+    <h3> {{ value1 | default_if_none:"Nothing" }} </h3> <!-- Здесь, если в переменной value1 будет записано None, то выведется текст НИЧЕГО -->
+    <hr>
+    {% if articles %}
+        <table>
+            <tr>
+                <td>
+                    Title
+                </td>
+                <td>
+                    Description
+                </td>
+                <td>
+                    Date
+                </td>
+            </tr>
+        {% for article in articles %}
+            <tr>
+                <td>
+                    {{ article.title | censor }}
+                </td>
+                <td>
+                    {{ article.description | truncatewords:4 | censor }}
+                </td>
+                <td>
+                    {{ article.datetime | date:'D M Y' }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <h2>No more Article!</h2>
+    {% endif %}
+{% endblock content %}
+
